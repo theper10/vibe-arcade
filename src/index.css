@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --game-bg: #090a1a;
+  --game-panel: #171830;
+  --game-primary: #6ee7f9;
+  --game-secondary: #f472b6;
+  --game-accent: #facc15;
+  --game-danger: #fb7185;
+  --game-text: #f8fafc;
+  --game-muted: #a9b4c8;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: #070712;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--game-text);
+  background:
+    radial-gradient(circle at 16% 12%, color-mix(in srgb, var(--game-primary) 18%, transparent), transparent 30rem),
+    radial-gradient(circle at 84% 4%, color-mix(in srgb, var(--game-secondary) 14%, transparent), transparent 26rem),
+    linear-gradient(145deg, #05050d 0%, var(--game-bg) 45%, #070812 100%);
+  overflow-x: hidden;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-position:
+    0 0,
+    0 0,
+    0 0;
+  background-size:
+    44px 44px,
+    44px 44px,
+    11px 11px;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--game-accent) 75%, white);
+  outline-offset: 3px;
+}
+
+::selection {
+  color: #060711;
+  background: var(--game-accent);
+}
+
+@layer components {
+  .glass-panel {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background:
+      linear-gradient(140deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.055)),
+      color-mix(in srgb, var(--game-panel) 86%, transparent);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(22px);
+  }
+
+  .arcade-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: var(--game-text);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--game-primary) 34%, #111827), color-mix(in srgb, var(--game-secondary) 30%, #111827)),
+      rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      filter 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .arcade-button:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--game-accent) 52%, white);
+    filter: brightness(1.06);
+  }
+
+  .arcade-button:active {
+    transform: translateY(1px) scale(0.99);
+  }
+
+  .arcade-button.secondary {
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045)),
+      color-mix(in srgb, var(--game-panel) 78%, black);
+  }
+
+  .stage-shell {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background:
+      radial-gradient(circle at 50% 12%, color-mix(in srgb, var(--game-primary) 18%, transparent), transparent 28rem),
+      linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035)),
+      color-mix(in srgb, var(--game-bg) 72%, black);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.055),
+      inset 0 -80px 120px rgba(0, 0, 0, 0.24),
+      0 24px 80px rgba(0, 0, 0, 0.34);
+  }
+
+  .scanline-overlay::after {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    content: "";
+    opacity: 0.13;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.22) 0,
+      rgba(255, 255, 255, 0.22) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+    mix-blend-mode: overlay;
+  }
+}
+
+[data-reduced-motion="true"] *,
+[data-reduced-motion="true"] *::before,
+[data-reduced-motion="true"] *::after {
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 1ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
